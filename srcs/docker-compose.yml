@@ -1,0 +1,33 @@
+name: inception
+
+services:
+  nginx:
+    build: ./requirements/nginx/
+    depends_on:
+      - mariadb
+    volumes:
+      - ./exam:/wp_db
+    ports:
+      - "443:80"
+      - "9000:80"
+  wp:
+    build: requirements/wordpress/
+    depends_on:
+      - nginx
+      - mariadb
+    volumes:
+      - ./exam:/wp_db
+    ports:
+      - "83:80"
+  mariadb:
+    build: requirements/mariadb/
+    volumes:
+      - ./exam:/db
+    ports:
+      - "82:3306"
+
+volumes:
+    db:
+    wp_db:
+
+
